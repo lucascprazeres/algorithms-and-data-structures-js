@@ -1,16 +1,16 @@
 function stringifyNumbers(obj) {
-  let parsedObj = {};
+  let newObj = {};
   for (let key in obj) {
     let value = obj[key];
     if (typeof value === 'object' && !Array.isArray(value)) {
-      parsedObj[key] = stringifyNumbers(value);
+      newObj[key] = stringifyNumbers(value);
     } else if (typeof value === 'number') {
-      parsedObj[key] = String(value);
+      newObj[key] = value.toString();
     } else {
-      parsedObj[key] = value;
+      newObj[key] = value;
     }
   }
-  return parsedObj;
+  return newObj;
 }
 
 const obj1 = {
