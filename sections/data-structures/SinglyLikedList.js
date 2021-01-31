@@ -42,48 +42,5 @@ class SinglyLinkedList {
     }
     return oldTail.value;
   }
-  shift() {
-    if (!this.head) return undefined;
-    const oldHead = this.head;
-    this.head = this.head.next;
-    this.length--;
-    return oldHead.value;
-  }
-  unshift(value) {
-    const newNode = new Node(value);
-    if (!this.head) {
-      this.head = newNode;
-      this.tail = this.head;
-    } else {
-      newNode.next = this.head;
-      this.head = newNode;
-    }
-    this.length++;
-    return this;
-  }
-  get(index) {
-    if (index < 0 || index >= this.length) return null;
-    let currentNode = this.head;
-    for (let jumps=0; jumps < index; jumps++) {
-      currentNode = currentNode.next;
-    }
-    return currentNode;
-  }
-  set(index, value) {
-    const foundNode = this.get(index);
-    if (foundNode) {
-      targetNode.value = value;
-      return true;
-    }
-    return false;
-  }
+  
 }
-
-const sll = new SinglyLinkedList();
-
-sll.push(1);
-sll.push(2);
-sll.push(3);
-
-console.log(sll.set(1, "banana"));
-console.log(sll.get(1));
