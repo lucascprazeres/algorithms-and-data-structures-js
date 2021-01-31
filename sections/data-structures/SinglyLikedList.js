@@ -25,7 +25,7 @@ class SinglyLinkedList {
     return this;
   }
   pop() {
-    if (!this.head) return undefined;
+    if (!this.head) return null;
     let current = this.head;
     let newTail = current;
     while (current.next) {
@@ -43,7 +43,7 @@ class SinglyLinkedList {
     return oldTail.value;
   }
   shift() {
-    if (!this.head) return undefined;
+    if (!this.head) return null;
     const oldHead = this.head;
     this.head = this.head.next;
     this.length--;
@@ -64,7 +64,7 @@ class SinglyLinkedList {
   get(index) {
     if (index < 0 || index >= this.length) return null;
     let currentNode = this.head;
-    for (let jumps=0; jumps < index; jumps++) {
+    for (let jumps = 0; jumps < index; jumps++) {
       currentNode = currentNode.next;
     }
     return currentNode;
@@ -76,5 +76,30 @@ class SinglyLinkedList {
       return true;
     }
     return false;
+  }
+  insert(index, value) {
+    if (index < 0 || index > this.length) return false;
+    else if (index === this.length) !!this.push(value);
+    else if (index === 0) !!this.unshift(value);
+
+    const previousNode = this.get(index - 1);
+    const newNode = new Node(value);
+    newNode.next = previousNode.next;
+    previousNode.next = newNode;
+    this.lentgh++;
+
+    return true;
+  }
+  remove(index) {
+    if (index < 0 || index >= this.length) return null;
+    else if (index === 0) return this.shift();
+    else if (index === this.length) return this.pop();
+
+    const previousNode = this.get(index - 1);
+    const removed = previousNode.next;
+    previousNode.next = removed.next;
+    this.length--;
+
+    return removed;
   }
 }
