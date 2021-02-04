@@ -50,4 +50,46 @@ class BinarySearchTree {
     }
     return false;
   }
+  breathFirstSearch() {
+    const queue = [];
+    const visited = []; 
+    queue.push(this.root);
+    while(queue.length) {
+      let node = queue.shift();
+      visited.push(node.value);
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    } 
+    return visited;
+  }
+  depthFirstSearchPreOrder() {
+    const visited = [];
+    const traverseStartingFrom = (node) => {
+      visited.push(node.value);
+      if (node.left) traverseStartingFrom(node.left);
+      if (node.right) traverseStartingFrom(node.right);
+    }
+    traverseStartingFrom(this.root);
+    return visited;
+  }
+  depthFirstSearchPostOrder() {
+    const visited = [];
+    const traverseStartingFrom = (node) => {
+      if (node.left) traverseStartingFrom(node.left);
+      if (node.right) traverseStartingFrom(node.right);
+      visited.push(node.value);
+    }
+    traverseStartingFrom(this.root);
+    return visited;
+  }
+  depthFirstSearchInOrder() {
+    const visited = [];
+    const traverseStartingFrom = (node) => {
+      if (node.left) traverseStartingFrom(node.left);
+      visited.push(node.value);
+      if (node.right) traverseStartingFrom(node.right);
+    }
+    traverseStartingFrom(this.root);
+    return visited;
+  }
 }
