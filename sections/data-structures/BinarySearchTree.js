@@ -50,7 +50,7 @@ class BinarySearchTree {
     }
     return false;
   }
-  breathFirstSearch() {
+  breadthFirstSearch() {
     const queue = [];
     const visited = []; 
     queue.push(this.root);
