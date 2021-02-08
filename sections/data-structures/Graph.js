@@ -1,28 +1,28 @@
 class Graph {
   constructor() {
-    this.adjacentList = {};
+    this.adjacencyList = {};
   }
   addVertex(vertex) {
-    if (!this.adjacentList[vertex]) this.adjacentList[vertex] = [];
+    if (!this.adjacencyList[vertex]) this.adjacencyList[vertex] = [];
   }
   addEdge(vertex1, vertex2) {
-    const vtx1 = this.adjacentList[vertex1];
-    const vtx2 = this.adjacentList[vertex2];
+    const vtx1 = this.adjacencyList[vertex1];
+    const vtx2 = this.adjacencyList[vertex2];
     if (!vtx1.includes(vertex2)) vtx1.push(vertex2);
     if (!vtx2.includes(vertex1)) vtx2.push(vertex1);
   }
   removeVertex(removedVertex) {
-    while (this.adjacentList[removedVertex].length) {
-      const adjacentVertex = this.adjacentList[removedVertex].pop();
+    while (this.adjacencyList[removedVertex].length) {
+      const adjacentVertex = this.adjacencyList[removedVertex].pop();
       this.removeEdge(adjacentVertex, removedVertex);
     }
-    delete this.adjacentList[removedVertex];
+    delete this.adjacencyList[removedVertex];
   }
   removeEdge(vertex1, vertex2) {
-    this.adjacentList[vertex1] = this.adjacentList[vertex1].filter(
+    this.adjacencyList[vertex1] = this.adjacencyList[vertex1].filter(
       vt => vt !== vertex2,
     );
-    this.adjacentList[vertex2] = this.adjacentList[vertex2].filter(
+    this.adjacencyList[vertex2] = this.adjacencyList[vertex2].filter(
       vt => vt !== vertex1,
     );
   }
@@ -34,7 +34,7 @@ class Graph {
       if (!vertex) return null;
       result.push(vertex);
       visited[vertex] = true;
-      this.adjacentList[vertex].forEach(neighbor => {
+      this.adjacencyList[vertex].forEach(neighbor => {
         if (!visited[neighbor]) return visit(neighbor);
       });
     }
@@ -52,7 +52,8 @@ class Graph {
     while (willVisit.length) {
       currentVisit = willVisit.pop();
       result.push(currentVisit);
-      this.adjacentList[currentVisit].forEach(neighbor => {
+
+      this.adjacencyList[currentVisit].forEach(neighbor => {
         if (!visited[neighbor]) {
           visited[neighbor] = true;
           willVisit.push(neighbor);
@@ -60,6 +61,26 @@ class Graph {
       });
     }
 
+    return result;
+  }
+  breadthFirstTraversal(start) {
+    const willVisit = [start];
+    const result = [];
+    const visited = {};
+    let currentVertex;
+    visited[start] = true;
+
+    while(willVisit.length) {
+      currentVertex = willVisit.shift();
+      result.push(currentVertex);
+
+      this.adjacencyList[currentVertex].forEach(neighbor => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          willVisit.push(neighbor);
+        }
+      })
+    }
     return result;
   }
 }
@@ -80,4 +101,4 @@ g.addEdge('D', 'E');
 g.addEdge('D', 'F');
 g.addEdge('E', 'F');
 
-console.log(g.depthFirstTraversalIterative('A'));
+console.log(g.breadthFirstTraversal('A'));
