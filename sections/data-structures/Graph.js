@@ -26,4 +26,58 @@ class Graph {
       vt => vt !== vertex1,
     );
   }
+  depthFirstTraversalRecursive(startVertex) {
+    const result = [];
+    const visited = {};
+
+    const visit = (vertex) => {
+      if (!vertex) return null;
+      result.push(vertex);
+      visited[vertex] = true;
+      this.adjacentList[vertex].forEach(neighbor => {
+        if (!visited[neighbor]) return visit(neighbor);
+      });
+    }
+    visit(startVertex);
+
+    return result;
+  }
+  depthFirstTraversalIterative(start) {
+    const willVisit = [start];
+    const result = [];
+    const visited = {};
+    let currentVisit;
+
+    visited[start] = true;
+    while (willVisit.length) {
+      currentVisit = willVisit.pop();
+      result.push(currentVisit);
+      this.adjacentList[currentVisit].forEach(neighbor => {
+        if (!visited[neighbor]) {
+          visited[neighbor] = true;
+          willVisit.push(neighbor);
+        }
+      });
+    }
+
+    return result;
+  }
 }
+
+let g = new Graph();
+g.addVertex('A');
+g.addVertex('B');
+g.addVertex('C');
+g.addVertex('D');
+g.addVertex('E');
+g.addVertex('F');
+
+g.addEdge('A', 'B');
+g.addEdge('A', 'C');
+g.addEdge('B', 'D');
+g.addEdge('C', 'E');
+g.addEdge('D', 'E');
+g.addEdge('D', 'F');
+g.addEdge('E', 'F');
+
+console.log(g.depthFirstTraversalIterative('A'));
